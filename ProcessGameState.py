@@ -99,10 +99,11 @@ class ProcessGameState:
         plt.xlabel('x')
         plt.ylabel('y')
         plt.legend()
-        # Set x-axis range
+
+        # Set x-axis y-axis range to have a brief overlook about the movement
         plt.xlim(-4500, 0)
-        # Set y-axis range
         plt.ylim(-4000, 1500)
+
         # Show the plot
         plt.savefig(f'/Users/zhangshanrong/Desktop/Team2/player_movements{round_num}.png')
         plt.close()
@@ -128,11 +129,65 @@ class ProcessGameState:
 
         return players_within_boundary_per_round
 
+    # retrieve the whole row for the first two entry per round of Team2 on the T side
+    # where the player enters BombsiteB with a rifle or an SMG
+    def get_first_two_entry_rows(self):
+        # Filter the data for Team2 on the T side
+        team2_data = self.data[(self.data['team'] == 'Team2') & (self.data['side'] == 'T') &
+                               (self.data['weapon_classes'].notna())]
+
+        # Initialize a DataFrame to store the first two entry rows
+        first_two_entry_rows = pd.DataFrame()
+
+        # Iterate over each round
+        for round_num in team2_data['round_num'].unique():
+            # Filter the data for the current round and players who entered BombsiteB
+            round_data = team2_data[(team2_data['round_num'] == round_num) & (team2_data['area_name'] == 'BombsiteB')]
+
+            # Filter the data for players who entered BombsiteB with at least one rifle or SMG
+            # but SMG is only for CT
+            round_entry_data = round_data[
+                round_data['weapon_classes'].apply(lambda x: any(weapon in ['Rifle', 'SMG'] for weapon in x))
+            ]
+            if not round_entry_data.empty:
+                # Keep only the first entry for each player
+                round_entry_data = round_entry_data.sort_values(by='tick').drop_duplicates(subset='player')
+                # Check if there are at least two distinct players that satisfy the condition
+                if round_entry_data.shape[0] >= 2:
+                    # Append the first two entries
+                    first_two_entries = round_entry_data.iloc[:2]
+                    first_two_entry_rows = pd.concat([first_two_entry_rows, pd.DataFrame(first_two_entries)], ignore_index=True)
+
+        return first_two_entry_rows
+
+    def get_average_timer(self, first_two_entry_rows):
+        # Since the 'seconds' and 'clock_time' can be set
+        # use tick to calculate the timer
+        # calculate each round's start ticks
+        def calculate_round_start_ticks(df):
+            return df.groupby('round_num')['tick'].min()
+
+        # Group by round_num and calculate the average tick for each round
+        average_ticks = first_two_entry_rows.groupby('round_num')['tick'].mean()
+        round_start_ticks = calculate_round_start_ticks(self.data)
+
+        # Subtract the round start tick from the average tick for each round
+        timer_ticks = average_ticks - round_start_ticks.loc[average_ticks.index]
+
+        # Convert tick to seconds
+        timer_seconds = timer_ticks / 128
+
+        # Calculate the average timer over all rounds
+        average_timer = timer_seconds.mean()
+
+        return average_timer
 
 a = ProcessGameState("/Users/zhangshanrong/Desktop/game_state_frame_data.parquet")
-a.add_boundary_check_column(Z_MIN,Z_MAX)
-c = a.count_players_within_boundary("Team2", "T")
-print(c)
+a.extract_weapon_classes()
+c = a.get_first_two_entry_rows()
+print(a.get_average_timer(c))
+#c.to_excel("/Users/zhangshanrong/Desktop/3.xlsx", engine='openpyxl', index=False)
+
 
 
 #team2_players_within_boundary = count_players_within_boundary(a.data, 'Team2', 'T')
@@ -143,6 +198,3 @@ print(c)
 # c = a.is_within_boundary(Z_MIN, Z_MAX)
 #a.extract_weapon_classes()
 
-
-#a.data.to_excel("/Users/zhangshanrong/Desktop/1.xlsx", engine='openpyxl', index=False)
-#print(a['weapon_classes'].head())
