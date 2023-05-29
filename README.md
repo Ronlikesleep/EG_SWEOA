@@ -63,7 +63,7 @@ c) Given the game's 3D nature, creating a 3D heatmap could be complex. So, I spl
 
 ![WechatIMG20](https://github.com/Ronlikesleep/EG_SWEOA/assets/29923635/1c26b955-809f-4289-b6f6-bdaa9cac32db)
 
-(You might not want to face a situation like that!)
+(You might not want to face a situation like that! The image is facing the most likely location for the appearance of a CT)
 
 ## Question 3
 1.Use Command Line for Customized Data Analytics
