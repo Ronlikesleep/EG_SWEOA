@@ -20,7 +20,7 @@ pip install pandas seaborn matplotlib scipy numpy
 
 a) Utilizing Pandas, I processed a Parquet file detailing the status of two teams and 10 players in a game. And I specified the engine as pyarrow, which can help to read the json type data.
 
-<img width="537" alt="image" src="https://github.com/Ronlikesleep/SWEOA/assets/29923635/7b993497-8f2b-4985-82f8-85b8317d6868">
+<img width="529" alt="image" src="https://github.com/Ronlikesleep/EG_SWEOA/assets/29923635/c1f68bf1-6e71-4798-911a-f58e9a3284f4">
 
 b) Considering chokepoints as triangles and quadrilaterals based on their coordinates, I applied the Barycentric method to verify a point's presence within these areas. The 'is_within_boundary' function with O(n) complexity was implemented using standard Python libraries. The solution involves several key functions.
 ```python
@@ -36,13 +36,13 @@ c) Under most circumstances, if the player is alive, the inventory typically is 
 ```python
 def extract_weapon_classes(self):
 ```
-<img width="311" alt="image" src="https://github.com/Ronlikesleep/SWEOA/assets/29923635/12528bda-1245-4ceb-b942-7f7ed0f0dc43">
+<img width="318" alt="image" src="https://github.com/Ronlikesleep/EG_SWEOA/assets/29923635/661e490a-3042-4db4-801d-b9532530f9fe">
 
 ## Question 2
 
 a) No, it was not.I initially plotted Team2's T-side movements over 15 rounds and noticed the light blue entry area wasn't frequently used. Using a function to count players entering this boundary per round, I found that only two players utilized this path in the 16th round, indicating it wasn't a common strategy for the team.
 
-<img width="293" alt="image" src="https://github.com/Ronlikesleep/SWEOA/assets/29923635/cf46b26c-1a40-41cb-8d27-0154f099c88f">
+<img width="303" alt="image" src="https://github.com/Ronlikesleep/EG_SWEOA/assets/29923635/756cfc9a-cd71-40bd-9a66-1bfe6fa8d867">
 
 ```python
 def plot_player_movements(self, round_num, team):
@@ -59,9 +59,10 @@ def get_average_timer(self):
 
 c) Given the game's 3D nature, creating a 3D heatmap could be complex. So, I split the z-axis into two, identified the top five frequented player locations, and found this to be at the suspected "BombsiteB" waiting point. The coordinates is (-826, 485, 96).
 
-![heatmap1](https://github.com/Ronlikesleep/SWEOA/assets/29923635/f4ca068a-4396-4724-a374-03d2ad05013a)
+![heatmap1](https://github.com/Ronlikesleep/EG_SWEOA/assets/29923635/38a46b7d-9d4a-49da-b63f-0826bcd0683f)
 
-![WechatIMG20](https://github.com/Ronlikesleep/SWEOA/assets/29923635/4ef37806-855a-475d-973f-f8ceeef83620)
+![WechatIMG20](https://github.com/Ronlikesleep/EG_SWEOA/assets/29923635/1c26b955-809f-4289-b6f6-bdaa9cac32db)
+
 (You might not want to face a situation like that!)
 
 ## Question 3
