@@ -19,6 +19,7 @@ pip install pandas seaborn matplotlib scipy numpy
 ## Question 1
 
 a) Utilizing Pandas, I processed a Parquet file detailing the status of two teams and 10 players in a game. And I specified the engine as pyarrow, which can help to read the json type data.
+
 <img width="537" alt="image" src="https://github.com/Ronlikesleep/SWEOA/assets/29923635/7b993497-8f2b-4985-82f8-85b8317d6868">
 
 b) Considering chokepoints as triangles and quadrilaterals based on their coordinates, I applied the Barycentric method to verify a point's presence within these areas. The 'is_within_boundary' function with O(n) complexity was implemented using standard Python libraries. The solution involves several key functions.
